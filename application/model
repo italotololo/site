@@ -1,0 +1,54 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+	class Tipo_cliente_model extends CI_Model{
+
+		public function selecionarUltimoCodigoTipoCliente(){
+			$this->db->select('cod_tipo_cliente');
+			$this->db->from('tb_tipo_cliente');
+			$this->db->order_by('cod_tipo_cliente', 'desc');	       
+			return $this->db->get()->row_array();
+		}
+				
+		public function editar($tipoCliente, $cod_tipo_cliente){
+			$this->db->where("cod_tipo_cliente", $cod_tipo_cliente);
+
+			if($this->db->update("tb_tipo_cliente",$tipoCliente)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		public function selecionar($cod_tipo_cliente){
+			$this->db->where("cod_tipo_cliente", $cod_tipo_cliente);
+			$data['tipoCliente'] = $this->db->get('tb_tipo_cliente')->result();	
+
+			return $data['tipoCliente'];
+		}
+
+		public function excluir($cod_tipo_cliente){
+			$this->db->where("cod_tipo_cliente", $cod_tipo_cliente);
+
+			return $this->db->delete("tb_tipo_cliente");
+		}
+
+		public function verificarSeExiste($des_tipo_cliente){
+			$this->db->where("des_tipo_cliente", $des_tipo_cliente);
+			$data['tipoCliente'] = $this->db->get('tb_tipo_cliente')->result();	
+
+			return $data['tipoCliente'];
+		}
+
+		public function listar(){
+			return $this->db->get('tb_tipo_cliente')->result();
+		}
+		
+		public function cadastrar($tipoCliente){			
+			if($this->db->insert("tb_tipo_cliente",$tipoCliente)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	}
+?>
